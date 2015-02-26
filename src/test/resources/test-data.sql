@@ -1,0 +1,1 @@
+insert into card (id, name, cardNumber) values (1, "MyCard", "234134");

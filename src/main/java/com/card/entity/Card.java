@@ -1,14 +1,12 @@
-package entity;
+package com.card.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Card Entity
  */
 @Entity
+@Table(name="card")
 public class Card {
 
     @Id
@@ -17,7 +15,7 @@ public class Card {
 
     public String name;
 
-    public String number;
+    public String cardNumber;
 
     public Long getId() {
         return id;
@@ -35,11 +33,11 @@ public class Card {
         this.name = name;
     }
 
-    public String getNumber() {
-        return number;
+    public String getCardNumber() {
+        return cardNumber;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
     }
 }
