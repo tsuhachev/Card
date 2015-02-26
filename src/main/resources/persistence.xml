@@ -16,13 +16,22 @@
           class="org.springframework.orm.jpa.JpaTransactionManager"
           p:entityManagerFactory-ref="entityManagerFactory"/>
 
-    <jdbc:embedded-database id="dataSource" type="H2">
-        <!--<jdbc:script location="classpath:/schema.sql" encoding="UTF-8" />-->
-    </jdbc:embedded-database>
+  <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource"
+        p:driverClass="org.h2.Driver"
+        p:url="jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=Oracle"
+        p:username="sa" p:password=""/>
 
-    <jee:jndi-lookup id="dbDataSource"
+    <jdbc:initialize-database data-source="dataSource">
+      <jdbc:script location="classpath:schema.sql" />
+    </jdbc:initialize-database>
+
+<!--    <jdbc:embedded-database id="dataSource" type="H2">
+        <jdbc:script execution="INIT" location="classpath:schema.sql" encoding="UTF-8" />
+    </jdbc:embedded-database>-->
+
+<!--    <jee:jndi-lookup id="dbDataSource"
                      jndi-name="jdbc/cards"
-                     expected-type="javax.sql.DataSource"/>
+                     expected-type="javax.sql.DataSource"/>-->
 
     <bean id="entityManagerFactory"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
