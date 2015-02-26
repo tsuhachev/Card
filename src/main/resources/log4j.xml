@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration PUBLIC "-//LOGGER"
+    "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+
+<log4j:configuration>
+
+  <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d %-5p [%t][%c]%X{userName} %m%n"/>
+    </layout>
+  </appender>
+
+  <logger name="org.springframework">
+    <level value="INFO"/>
+  </logger>
+
+  <logger name="com.card">
+    <level value="DEBUG"/>
+  </logger>
+
+  <logger name="org.hibernate">
+    <level value="INFO"/>
+  </logger>
+  <logger name="org.hibernate.type" >
+    <level value="INFO" /><!--TRACE-->
+  </logger>
+  <logger name="org.hibernate.SQL" >
+    <level value="INFO" /><!--DEBUG-->
+  </logger>
+
+  <root>
+    <priority value="ERROR"/>
+    <appender-ref ref="CONSOLE"/>
+  </root>
+
+</log4j:configuration>
