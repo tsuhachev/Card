@@ -18,25 +18,27 @@ import com.card.repository.CardRepository;
 public class CardServiceTest {
 
   private static final String NAME = "name";
-  @Autowired
-  private CardService cardService;
 
-  @Autowired
-  private CardRepository cardRepository;
+  @Autowired private CardService cardService;
+  @Autowired private CardRepository cardRepository;
+
+  private Card card;
 
   @Before
   public void setUp() throws Exception {
     cardRepository.deleteAll();
 
-    Card card = new Card();
+    card = new Card();
     card.setCardNumber("number");
     card.setName(NAME);
-    cardRepository.save(card);
   }
 
   @Test
-  public void testGetCardById() throws Exception {
-    Card cardById = cardService.getCardById((long) 1);
+  public void testPutAndGetCardById() throws Exception {
+    cardRepository.save(card);
+
+    Card cardById = cardService.getCardById(1L);
+
     assertNotNull(cardById);
     assertEquals(NAME, cardById.getName());
   }
