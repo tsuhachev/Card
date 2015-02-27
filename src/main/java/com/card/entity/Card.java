@@ -1,43 +1,58 @@
 package com.card.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Card Entity
  */
 @Entity
-@Table(name="card")
+@Table(name = "card")
 public class Card {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    public String name;
+  private String name;
 
-    public String cardNumber;
+  private String cardNumber;
 
-    public Long getId() {
-        return id;
-    }
+  @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JoinTable(name = "card_discount",
+      joinColumns = @JoinColumn(name = "card_id"),
+      inverseJoinColumns = @JoinColumn(name = "discount_id"))
+  private List<Discount> discounts;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public String getCardNumber() {
-        return cardNumber;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
-    }
+  public String getCardNumber() {
+    return cardNumber;
+  }
+
+  public void setCardNumber(String cardNumber) {
+    this.cardNumber = cardNumber;
+  }
+
+  public List<Discount> getDiscounts() {
+    return discounts;
+  }
+
+  public void setDiscounts(List<Discount> discounts) {
+    this.discounts = discounts;
+  }
 }

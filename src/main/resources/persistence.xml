@@ -3,12 +3,12 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-       xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/jdbc
                            http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
-                           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+                             http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <jpa:repositories base-package="com.card.repository"/>
 
@@ -16,18 +16,15 @@
           class="org.springframework.orm.jpa.JpaTransactionManager"
           p:entityManagerFactory-ref="entityManagerFactory"/>
 
-  <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource"
-        p:driverClass="org.h2.Driver"
-        p:url="jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=Oracle"
-        p:username="sa" p:password=""/>
+
 
     <jdbc:initialize-database data-source="dataSource">
       <jdbc:script location="classpath:schema.sql" />
     </jdbc:initialize-database>
 
-<!--    <jdbc:embedded-database id="dataSource" type="H2">
+    <jdbc:embedded-database id="dataSource" type="H2">
         <jdbc:script execution="INIT" location="classpath:schema.sql" encoding="UTF-8" />
-    </jdbc:embedded-database>-->
+    </jdbc:embedded-database>
 
 <!--    <jee:jndi-lookup id="dbDataSource"
                      jndi-name="jdbc/cards"
