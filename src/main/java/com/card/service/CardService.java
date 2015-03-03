@@ -15,14 +15,12 @@ import com.card.repository.CardRepository;
 public class CardService {
 
   @Autowired private CardRepository cardRepository;
-  @Autowired private DiscountRepository discountRepository;
 
   public Card getCardById(Long id) {
     return cardRepository.findOne(id);
   }
 
-  public int getDiscountValue(long cardId, String discountForName) {
-    long discountId = discountRepository.findByName(discountForName);
+  public int getDiscountValue(long cardId, long discountId) {
 
     Card card = cardRepository.findOne(cardId);
     for (Discount discount : card.getDiscounts()) {

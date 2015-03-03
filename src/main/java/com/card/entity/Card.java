@@ -24,6 +24,10 @@ public class Card {
       inverseJoinColumns = @JoinColumn(name = "discount_id"))
   private List<Discount> discounts;
 
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JoinColumn(name = "ownerId")
+  private Owner owner;
+
   public Long getId() {
     return id;
   }
@@ -54,5 +58,13 @@ public class Card {
 
   public void setDiscounts(List<Discount> discounts) {
     this.discounts = discounts;
+  }
+
+  public Owner getOwner() {
+    return owner;
+  }
+
+  public void setOwner(Owner owner) {
+    this.owner = owner;
   }
 }

@@ -11,6 +11,6 @@ import org.springframework.data.repository.query.Param;
  */
 public interface DiscountRepository extends JpaRepository<Discount, Long> {
 
-  @Query(value = "select d.id from Discount d where d.name = :discountName")
-  long findByName(@Param("discountName") String discountForName);
+  @Query(value = "select d from Discount d where d.name = :discountName")
+  Discount findByName(@Param("discountName") String discountForName);
 }

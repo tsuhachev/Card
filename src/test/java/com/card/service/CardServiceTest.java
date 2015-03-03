@@ -2,7 +2,9 @@ package com.card.service;
 
 import com.card.entity.Card;
 import com.card.entity.Discount;
+import com.card.entity.Owner;
 import com.card.repository.CardRepository;
+import com.card.repository.DiscountRepository;
 import com.card.service.businessexception.NoDiscountException;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,30 +24,37 @@ public class CardServiceTest {
 
   private static final String NAME = "name";
   public static final String PUB = "Pub";
+  public static final String SOME_OWNER = "someOwner";
 
   @Autowired private CardService cardService;
   @Autowired private CardRepository cardRepository;
+  @Autowired private DiscountRepository discountRepository;
 
-  private Card card;
+  private Card savedCard;
 
   @Before
   public void setUp() throws Exception {
     cardRepository.deleteAll();
+    discountRepository.deleteAll();
 
-    card = new Card();
+    Card card = new Card();
     card.setCardNumber("number");
     card.setName(NAME);
     Discount discount = new Discount();
     discount.setPercentage(3);
     discount.setName("Pub");
     card.setDiscounts(Arrays.asList(discount));
+    Owner owner = new Owner();
+    owner.setUsername(SOME_OWNER);
+    owner.setPhone("145254242");
+    card.setOwner(owner);
+    savedCard = cardRepository.save(card);
   }
 
   @Test
   public void testPutAndGetCardById() throws Exception {
-    cardRepository.save(card);
 
-    Card cardById = cardService.getCardById(1L);
+    Card cardById = cardService.getCardById(savedCard.getId());
 
     assertNotNull(cardById);
     assertEquals(NAME, cardById.getName());
@@ -56,16 +65,20 @@ public class CardServiceTest {
 
   @Test
   public void testGetDiscountById() {
-    cardRepository.save(card);
-    int discountValue = cardService.getDiscountValue(1L, "Pub");
-    int expected = card.getDiscounts().get(0).getPercentage();
+    int discountValue = cardService.getDiscountValue(savedCard.getId(), savedCard.getDiscounts().get(0).getId());
+    int expected = savedCard.getDiscounts().get(0).getPercentage();
     assertEquals(expected, discountValue);
   }
 
   @Test(expected = NoDiscountException.class)
   public void testGetDiscountByIdThrowsException() {
-    cardRepository.save(card);
-    cardService.getDiscountValue(1L, "Pub2");
+    cardService.getDiscountValue(savedCard.getId(), 1234L);
   }
 
+  @Test
+  public void testGetUserDetails() {
+    Card cardById = cardService.getCardById(savedCard.getId());
+    Owner owner = cardById.getOwner();
+    assertEquals(SOME_OWNER, owner.getUsername());
+  }
 }
